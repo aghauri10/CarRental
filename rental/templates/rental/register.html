@@ -1,0 +1,12 @@
+{% block styles %}
+  <link rel="stylesheet" href="style.css">
+{% endblock styles %}
+
+{% block content %}
+<form  method = "POST" action=".">
+  {% csrf_token %}
+  {{userform.as_p}}
+  {{customerform.as_p}}
+  <input type="submit" name="Register Me">
+</form>
+{% endblock content %}

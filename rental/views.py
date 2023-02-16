@@ -12,7 +12,12 @@ def registerView(request):
     userForm = UserForm(request.POST or None)
     customerForm = CustomerForm(request.POST or None)
 
-    p
+    if userForm.is_valid():
+        user = userForm.save()
+        print(user)
+
+        user.delete()
+
 
 
     context['userform'] = userForm
