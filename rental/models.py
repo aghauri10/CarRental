@@ -12,6 +12,9 @@ class Customer(models.Model):
     occupation = models.CharField(blank = True,choices = occupation_choices,max_length = 50,default = 'Unemployed')
     phone_number = models.CharField(blank = False,max_length = 15)
     license_number = models.CharField(max_length = 50)
+    
+    def __str__(self):
+        return str(self.user.username) + '_'  + str(self.license_number)
 
 class Car(models.Model):
     car_id = models.UUIDField(primary_key = True,default = uuid.uuid4)

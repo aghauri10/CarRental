@@ -1,12 +1,21 @@
+{% extends 'rental/base.html' %} 
+{% load static %}
 {% block styles %}
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{% static 'css/register.css' %}" />
 {% endblock styles %}
-
 {% block content %}
-<form  method = "POST" action=".">
-  {% csrf_token %}
-  {{userform.as_p}}
-  {{customerform.as_p}}
-  <input type="submit" name="Register Me">
-</form>
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  <h1>Register</h1>
+
+  <form method="POST" action=".">
+    {% csrf_token %} {{userform.as_p}} {{customerform.as_p}}
+    <input type="submit" name="Register Me" />
+  </form>
+  <a href="{% url 'login'%}">Already have a account?</a>
 {% endblock content %}

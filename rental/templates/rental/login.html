@@ -1,9 +1,23 @@
-{% load static %}
+{% extends 'rental/base.html' %}
+{% load static %} 
+
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
-{% endblock styles %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+{% endblock styles %} 
 
 {% block content %}
-<h1>Login</h1>
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
 
+  <h1>Login</h1>
+  <form method="POST" action=".">
+    {% csrf_token %} {{form.as_p}}
+    <input type="submit" name="Login" />
+  </form>
+  <a href="{% url 'register'%}">Create a new account</a>
 {% endblock content %}
