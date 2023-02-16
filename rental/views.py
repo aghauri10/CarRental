@@ -20,15 +20,19 @@ def registerView(request):
     
     userForm = UserForm(request.POST or None)
     customerForm = CustomerForm(request.POST or None)
+    
 
     if userForm.is_valid() and customerForm.is_valid():
         user = userForm.save()
+        
         customerForm.cleaned_data['user'] = user
+        
         customer = Customer.objects.create(**customerForm.cleaned_data)
         
         messages.success(request,f"{user.username} has been successfully created")
         return redirect('login')
 
+    messages.error(request,"Check your user data")
     context['userform'] = userForm
     context['customerform'] = customerForm
 
@@ -36,11 +40,12 @@ def registerView(request):
 
 def loginView(request):
     context = {}
+    
     if request.user.is_authenticated:
         return redirect('homepage')
     
     form = LoginForm(request.POST or None)
-    
+
     if form.is_valid():
         data = form.cleaned_data
         username = data.get('username')

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import Customer
 
+
 class UserForm(UserCreationForm):
     class Meta:
         model = User
@@ -20,3 +21,7 @@ class CustomerForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)
     password = forms.CharField(widget=forms.PasswordInput(),required=True)
+    
+        
+        
+        
