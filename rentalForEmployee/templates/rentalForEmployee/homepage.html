@@ -1,4 +1,4 @@
-{% extends 'rental/base.html' %}
+{% extends 'rentalForEmployee/base.html' %}
 {% load static %}
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/homepage.css' %}" />
@@ -12,8 +12,12 @@
     </ul>
     {% endif %}
     
-    <h1>Homepage</h1>
-    <a href="#">{{user}}</a>
-    <a href="{% url 'customer-logout' %}">Logout</a>
+    <h1>Homepage For Employee</h1>
+    
+    <a href="{% url 'add-car' %}">Add a new car</a><br>
+    <a href="#">{{user}}</a><br>
+    <a href="{% url 'employee-logout' %}">Logout</a>
+
+    
 
 {% endblock content %}

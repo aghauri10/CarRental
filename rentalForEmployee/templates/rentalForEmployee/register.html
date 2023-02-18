@@ -1,4 +1,4 @@
-{% extends 'rental/base.html' %} 
+{% extends 'rentalForEmployee/base.html' %} 
 {% load static %}
 {% block styles %}
   <link rel="stylesheet" href="{% static 'css/register.css' %}" />
@@ -14,8 +14,8 @@
   <h1>Register</h1>
 
   <form method="POST" action=".">
-    {% csrf_token %} {{userform.as_p}} {{customerform.as_p}}
+    {% csrf_token %} {{userform.as_p}} {{employeeform.as_p}}
     <input type="submit" name="Register Me" />
   </form>
-  <a href="{% url 'customer-login'%}">Already have a account?</a>
+  <a href="{% url 'employee-login'%}">Already have a account?</a>
 {% endblock content %}

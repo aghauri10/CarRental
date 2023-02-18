@@ -1,8 +1,8 @@
-{% extends 'rental/base.html' %}
+{% extends 'rentalForEmployee/base.html' %}
 {% load static %} 
 
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/addnewcar.css' %}" />
 {% endblock styles %} 
 
 {% block content %}
@@ -14,10 +14,11 @@
   </ul>
   {% endif %}
 
-  <h1>Login</h1>
+  <h1>Add a New Car</h1>
+  <a href="{% url 'employee-homepage'%}">Go back</a>
   <form method="POST" action=".">
     {% csrf_token %} {{form.as_p}}
-    <input type="submit" name="Login" />
+    <input type="submit" name="Add Car" />
   </form>
-  <a href="{% url 'customer-register'%}">Create a new account</a>
+  
 {% endblock content %}

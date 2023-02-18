@@ -16,15 +16,16 @@ class Customer(models.Model):
     def __str__(self):
         return str(self.user.username) + '_'  + str(self.license_number)
 
+    
 class Car(models.Model):
-    car_id = models.UUIDField(primary_key = True,default = uuid.uuid4)
+    car_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable=False)
     brand = models.CharField(max_length = 50)
     model = models.CharField(max_length = 50)
     year = models.CharField(max_length = 4)
     color = models.CharField(max_length = 50)
     mileage = models.IntegerField()
     car_number = models.CharField(max_length = 25)
-    image = models.ImageField(upload_to = './images/car/')
+    image = models.ImageField(upload_to = 'images/car')
     price = models.IntegerField()
     
     

@@ -1,4 +1,4 @@
-{% extends 'rental/base.html' %}
+{% extends 'rentalForEmployee/base.html' %}
 {% load static %} 
 
 {% block styles %}
@@ -19,5 +19,5 @@
     {% csrf_token %} {{form.as_p}}
     <input type="submit" name="Login" />
   </form>
-  <a href="{% url 'customer-register'%}">Create a new account</a>
+  <a href="{% url 'employee-register'%}">Create a new account</a>
 {% endblock content %}

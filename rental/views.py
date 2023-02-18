@@ -16,7 +16,7 @@ def registerView(request):
     context = {}
     
     if request.user.is_authenticated:
-        return redirect('homepage')
+        return redirect('customer-homepage')
     
     userForm = UserForm(request.POST or None)
     customerForm = CustomerForm(request.POST or None)
@@ -30,9 +30,10 @@ def registerView(request):
         customer = Customer.objects.create(**customerForm.cleaned_data)
         
         messages.success(request,f"{user.username} has been successfully created")
-        return redirect('login')
+        return redirect('customer-login')
 
-    messages.error(request,"Check your user data")
+    if request.POST:
+        messages.error(request,"Check your user data")
     context['userform'] = userForm
     context['customerform'] = customerForm
 
@@ -42,7 +43,7 @@ def loginView(request):
     context = {}
     
     if request.user.is_authenticated:
-        return redirect('homepage')
+        return redirect('customer-homepage')
     
     form = LoginForm(request.POST or None)
 
@@ -55,7 +56,7 @@ def loginView(request):
         if user:
             login(request,user)
             messages.success(request,f'Successfully Logged as {user.username}')
-            return redirect('homepage')
+            return redirect('customer-homepage')
         
         messages.error(request,"WRONG USER CREDENTIALS")
         
@@ -67,6 +68,6 @@ def loginView(request):
 def logoutView(request):
     context = {}
     logout(request)
-    return redirect('login')
+    return redirect('customer-login')
 
     
