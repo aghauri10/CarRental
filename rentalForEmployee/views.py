@@ -5,23 +5,23 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Employee
-
+from .decoraters import employee_required
 
 # Create your views here.
 
-@login_required(login_url='login/')
+@employee_required
 def homepageView(request):
     context = {}
 
     return render(request,'rentalForEmployee/homepage.html',context)
 
 
-@login_required(login_url='login/')
+@employee_required
 def addCarView(request):
     context = {}
     
-    form = CarForm(request.POST or None)
-    print(form)
+    form = CarForm(request.POST or None,request.FILES or None)
+    
     if form.is_valid():
         form.save()
         
@@ -44,14 +44,19 @@ def loginView(request):
         password = data.get('password')
         user = authenticate(request,username = username, password = password)
         
-        if user:
+        employee_exists = True
+        try:
+            employee = user.employee
+        except:
+            employee_exists = False
+        
+        if user and employee_exists:
             login(request,user)
             messages.success(request,f'Successfully Logged as {user.username}')
             return redirect('employee-homepage')
         
         messages.error(request,"WRONG USER CREDENTIALS")
         
-    
     context['form'] = form
     
     

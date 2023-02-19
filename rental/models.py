@@ -1,7 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid 
+from .validators import year_validator
+from django.core.validators import MinValueValidator,MaxValueValidator
 
+
+'''
+Ford
+Vauxhall
+Volkswagen
+BMW
+Audi
+Mercedes-Benz
+Toyota
+Nissan
+Peugeot
+Renault
+'''
 class Customer(models.Model):
     occupation_choices = [('Student','Student'),('Unemployed','Unemployed'),('Employed','Employed')]
     gender_choices = [('M','Male'),('F','Female'),('X','Prefer Not to Say')]
@@ -21,12 +36,15 @@ class Car(models.Model):
     car_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable=False)
     brand = models.CharField(max_length = 50)
     model = models.CharField(max_length = 50)
-    year = models.CharField(max_length = 4)
+    year = models.PositiveSmallIntegerField(validators=[year_validator])
     color = models.CharField(max_length = 50)
-    mileage = models.IntegerField()
+    mileage = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(200000)])
     car_number = models.CharField(max_length = 25)
     image = models.ImageField(upload_to = 'images/car')
     price = models.IntegerField()
+    
+    def __str__(self):
+        return f"{str(self.brand)}-{str(self.model)-(str(self.year))-{self.car_number}}" 
     
     
 class Reviews(models.Model):

@@ -20,6 +20,8 @@ class UserForm(UserCreationForm):
             # If ran successfully till here, then Email user with same mail exists.
 
             self.add_error('email',f"Employee with same email {email} exists")
+        except User.MultipleObjectsReturned:
+            self.add_error('email',f"Employee with same email {email} exists")
         except:
             pass
 

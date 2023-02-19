@@ -19,8 +19,11 @@ class UserForm(UserCreationForm):
             # If ran successfully till here, then customer user with same mail exists.
 
             self.add_error('email',f"Customer with same email {email} exists")
+        except User.MultipleObjectsReturned:
+            self.add_error('email',f"Customer with same email {email} exists")
         except:
             pass
+            
         
 
 class CustomerForm(forms.ModelForm):

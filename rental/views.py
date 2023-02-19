@@ -5,9 +5,10 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Customer
+from.decorators import customer_required
 
 # Create your views here.'
-@login_required(login_url='login/')
+@customer_required
 def homepageView(request):
     context = {}
     return render(request, 'rental/homepage.html', context)
@@ -53,7 +54,13 @@ def loginView(request):
         password = data.get('password')
         user = authenticate(request,username = username, password = password)
         
-        if user:
+        customer_exists = True
+        try:
+            customer = user.customer
+        except:
+            customer_exists = False
+        
+        if user and customer_exists:
             login(request,user)
             messages.success(request,f'Successfully Logged as {user.username}')
             return redirect('customer-homepage')
