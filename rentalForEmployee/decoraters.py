@@ -9,10 +9,10 @@ def employee_required(view_func):
         try:
             if request.user.is_authenticated and request.user.employee:
                 return view_func(request,*args,**kwargs)
-        except:
+        except Exception as e:
             pass
         
-        if request.user.is_authenticated:# Employee Case
+        if request.user.is_authenticated:# Customer Case
             return HttpResponse("You are not allowed to access this resource. Permission Denied")
         else: # Anonymous 
             return redirect('employee-login')

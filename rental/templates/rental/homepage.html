@@ -13,7 +13,9 @@
     {% endif %}
     
     <h1>Homepage</h1>
-    <a href="#">{{user}}</a>
+    <a href="#">About</a><br>
+    <a href="{% url 'cars-for-rent' %}">Rent A Car</a><br>
+    <a href="#">{{user}}</a><br>
     <a href="{% url 'customer-logout' %}">Logout</a>
 
 {% endblock content %}

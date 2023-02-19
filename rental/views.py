@@ -4,7 +4,7 @@ from .forms import CustomerForm,UserForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Customer
+from .models import Customer,Car
 from.decorators import customer_required
 
 # Create your views here.'
@@ -12,6 +12,15 @@ from.decorators import customer_required
 def homepageView(request):
     context = {}
     return render(request, 'rental/homepage.html', context)
+
+@customer_required
+def carsListView(request):
+    context = {}
+    cars = Car.objects.all()
+    context['cars'] = cars
+
+    return render(request, 'rental/carsforrent.html', context)
+
 
 def registerView(request):
     context = {}

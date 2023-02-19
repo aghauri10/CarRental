@@ -24,9 +24,12 @@ def addCarView(request):
     
     if form.is_valid():
         form.save()
-        
-        return redirect('add-car')
+        messages.success(request,"Car Added Successfully")
+        return redirect('employee-homepage')
     
+    if request.POST and request.FILES:
+        messages.error(request,"Enter valid data")
+        
     context['form'] = form
     return render(request,'rentalForEmployee/addnewcar.html',context)
 

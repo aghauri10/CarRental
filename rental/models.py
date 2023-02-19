@@ -2,24 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid 
 from .validators import year_validator
-from django.core.validators import MinValueValidator,MaxValueValidator
+from django.core.validators import MinValueValidator,MaxValueValidator,RegexValidator
 
 
-'''
-Ford
-Vauxhall
-Volkswagen
-BMW
-Audi
-Mercedes-Benz
-Toyota
-Nissan
-Peugeot
-Renault
-'''
+
 class Customer(models.Model):
     occupation_choices = [('Student','Student'),('Unemployed','Unemployed'),('Employed','Employed')]
     gender_choices = [('M','Male'),('F','Female'),('X','Prefer Not to Say')]
+    
 
     user = models.OneToOneField(User,on_delete=models.CASCADE) 
     gender = models.CharField(blank = False,choices = gender_choices,max_length = 50)
@@ -31,20 +21,22 @@ class Customer(models.Model):
     def __str__(self):
         return str(self.user.username) + '_'  + str(self.license_number)
 
-    
 class Car(models.Model):
+    brand_choices = [('Ford', 'Ford'), ('Vauxhall', 'Vauxhall'), ('Volkswagen', 'Volkswagen'), ('BMW', 'BMW'), ('Audi', 'Audi'), ('Mercedes-Benz', 'Mercedes-Benz'), ('Toyota', 'Toyota'), ('Nissan', 'Nissan'), ('Peugeot', 'Peugeot'), ('Renault', 'Renault'),('Other','Other')]
+    color_choices = [('White', 'White'), ('Black', 'Black'), ('Grey', 'Grey'), ('Silver', 'Silver'), ('Blue', 'Blue'), ('Red', 'Red'), ('Brown', 'Brown'), ('Green', 'Green'), ('Orange', 'Orange'), ('Purple', 'Purple'), ('Beige', 'Beige'), ('Purple', 'Purple'), ('Gold', 'Gold'), ('Yellow', 'Yellow')]
+    
     car_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable=False)
-    brand = models.CharField(max_length = 50)
+    brand = models.CharField(max_length = 50,blank = False,choices = brand_choices)
     model = models.CharField(max_length = 50)
     year = models.PositiveSmallIntegerField(validators=[year_validator])
-    color = models.CharField(max_length = 50)
+    color = models.CharField(max_length = 50,blank = False,choices = color_choices)
     mileage = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(200000)])
-    car_number = models.CharField(max_length = 25)
+    car_number = models.CharField(max_length = 25,unique=True)
     image = models.ImageField(upload_to = 'images/car')
-    price = models.IntegerField()
-    
+    price = models.IntegerField(validators=[MinValueValidator(0)])
+    description = models.CharField(max_length=1000,blank = False)
     def __str__(self):
-        return f"{str(self.brand)}-{str(self.model)-(str(self.year))-{self.car_number}}" 
+        return f"{str(self.brand)}-{str(self.model)}-{(str(self.year))}-{str(self.car_number)}" 
     
     
 class Reviews(models.Model):

@@ -3,6 +3,10 @@
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/homepage.css' %}" />
 {% endblock styles %} 
+{% block script %}
+    <script src="{% static 'js/homepage.js' %}" />
+{% endblock %} 
+
 {% block content %}
     {% if messages %}
     <ul class="messages">
@@ -15,9 +19,13 @@
     <h1>Homepage For Employee</h1>
     
     <a href="{% url 'add-car' %}">Add a new car</a><br>
+    <a href="#">Cars</a><br>
+    <a href="#">Customers</a><br>
     <a href="#">{{user}}</a><br>
     <a href="{% url 'employee-logout' %}">Logout</a>
+    
 
     
 
+    
 {% endblock content %}

@@ -1,11 +1,5 @@
-
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.http import HttpResponse
-
-
-
-
 
 def customer_required(view_func):
     '''
@@ -16,8 +10,8 @@ def customer_required(view_func):
         try:
             if request.user.is_authenticated and request.user.customer:
                 return view_func(request,*args,**kwargs)
-        except:
-            pass
+        except Exception as e:
+            print(e)
         
         if request.user.is_authenticated:# Employee Case
             return HttpResponse("You are not allowed to access this resource. Permission Denied")
