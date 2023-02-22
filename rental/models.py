@@ -12,6 +12,7 @@ class Customer(models.Model):
     
 
     user = models.OneToOneField(User,on_delete=models.CASCADE) 
+    profile_pic = models.ImageField(upload_to="images/customer",default="images/customer/default.png")
     gender = models.CharField(blank = False,choices = gender_choices,max_length = 50)
     dob = models.DateField(blank = False)
     occupation = models.CharField(blank = True,choices = occupation_choices,max_length = 50,default = 'Unemployed')
@@ -32,7 +33,7 @@ class Car(models.Model):
     color = models.CharField(max_length = 50,blank = False,choices = color_choices)
     mileage = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(200000)])
     car_number = models.CharField(max_length = 25,unique=True)
-    image = models.ImageField(upload_to = 'images/car')
+    image = models.ImageField(upload_to = 'images/car',default='images/car/default.jpeg')
     price = models.IntegerField(validators=[MinValueValidator(0)])
     description = models.CharField(max_length=1000,blank = False)
     def __str__(self):

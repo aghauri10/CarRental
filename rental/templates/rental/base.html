@@ -1,98 +1,64 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!-- Font Awesome -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- MDB -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
     <title>Car Rental</title>
     {% block styles %}{% endblock styles %}
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
-      <!-- Container wrapper -->
-      <div class="container-fluid">
-        <!-- Toggle button -->
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Navbar brand -->
-          <a class="navbar-brand mt-2 mt-lg-0" href="#">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-              height="15"
-              alt="MDB Logo"
-              loading="lazy"
-            />
-          </a>
-          <!-- Left links -->
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'customer-homepage' %}"
-                >Homepage</a
-              >
+    <div class="navbar navbar-expand-lg navbar-light bg-light sticky-top bg-body-tertiary">
+      <a class="navbar-brand" href="{% url 'customer-homepage' %}">
+        <img src="{% static 'images/logos/logo.png' %}" alt="Drive Mate" height="20">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="nav collapse navbar-collapse justify-content-end">
+        <li class="nav-item">
+          <a class="nav-item nav-link" href="{% url 'customer-homepage' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" href="{% url 'cars-for-rent' %}">Rent Cars</a>
+        </li>
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-item nav-link" href="{% url 'customer-login' %}"> Login </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" href="{% url 'customer-register' %}">Signup</a>
+        </li>
+        {% else %}
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+            Logged in as {{user.username}}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+            <li>
+              <a class="dropdown-item" href="{% url 'customer-profile' %}">Profile Settings</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'cars-for-rent' %}">Rent Cars</a>
+            <li>
+              <a class="dropdown-item" href="{% url 'customer-logout' %}">Logout</a>
             </li>
           </ul>
-          <!-- Left links -->
         </div>
-        <div class="d-flex align-items-center">
-          {% if user %}
-          <a
-            class="btn btn-link px-3 me-2"
-            href="{% url 'customer-register' %}"
-            role="button"
-            >Signup for Free</a
-          >
-          <a
-            class="btn btn-primary me-3"
-            href="{% url 'customer-login' %}"
-            role="button"
-            >Login
-          </a>
-          {% endif %}
-          <a
-            class="btn btn-dark px-3"
-            href="{% url 'customer-logout' %}"
-            role="button"
-            ><i class="fab fa-sign-out"></i
-          ></a>
-        </div>
-      </div>
-      <!-- Collapsible wrapper -->
+        
+        
+        
+        {% endif %}
+      </ul>
+      
+    </div>
+    
 
-      <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
-
+    <br />
     {% block content %}{% endblock content %}
+  
+    
   </body>
 </html>

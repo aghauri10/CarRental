@@ -25,11 +25,15 @@ class UserForm(UserCreationForm):
             pass
             
         
-
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name','last_name','email']
+    
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['gender','dob','occupation','phone_number','license_number']
+        fields = ['gender','dob','occupation','phone_number','license_number','profile_pic']
         widgets = {
             'dob': forms.widgets.DateInput(attrs={'type': 'date'})
         }

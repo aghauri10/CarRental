@@ -1,23 +1,41 @@
-{% extends 'rental/base.html' %}
-{% load static %} 
-
-{% block styles %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+{% extends 'rental/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
 {% endblock styles %} 
+{% block content %} 
+{% if messages %} 
+  {% for message in messages %} 
+    {% if message.level_tag == 'error' %}
+      <div class="alert alert-danger" role="alert">
+        <p>Error occurred in signing process | {{message}}</p>
+      </div>
+    {% endif %} 
+    
+    {% if message.level_tag == 'success' %}
+    <div class="alert alert-success" role="alert">
+      <p>{{message}}</p>
+      <hr />
+    </div>
+    {% endif %} 
+  {% endfor %} 
+{% endif %}
+<form method="POST" action=".">
+  {% csrf_token %}
+  <!-- Email input -->
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">@</span>
+    <input type="text" class="form-control" placeholder="Username" aria-label="{{form.username.label}}" aria-describedby="basic-addon1" name="{{form.username.html_name}}">
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">{{form.password.label}}</span>
+    <input type="password" class="form-control" aria-label="{{form.password.label}}" aria-describedby="inputGroup-sizing-default" name="{{form.password.html_name}}">
+  </div>
+   
+  <!-- Register buttons -->
+  <div class="text-center">
+     <!-- Submit button -->
+    <button type="submit" class="btn btn-primary">Sign in</button><br>
 
-{% block content %}
-  {% if messages %}
-  <ul class="messages">
-      {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
-
-  <h1>Login</h1>
-  <form method="POST" action=".">
-    {% csrf_token %} {{form.as_p}}
-    <input type="submit" name="Login" />
-  </form>
-  <a href="{% url 'customer-register'%}">Create a new account</a>
+    <p>Not a member? <a href="{% url 'customer-register'%}">Register</a></p>
+  </div>
+</form>
 {% endblock content %}
