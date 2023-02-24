@@ -6,16 +6,16 @@ from django.http import HttpResponse
 def employee_required(view_func):
     def wrapper(request,*args,**kwargs):
         
-        try:
-            if request.user.is_authenticated and request.user.employee:
-                return view_func(request,*args,**kwargs)
-        except Exception as e:
-            pass
+       def wrapper(request,*args,**kwargs):
         
-        if request.user.is_authenticated:# Customer Case
+        if request.user.is_authenticated and hasattr(request.user,'employee'):# Employee User
+            return view_func(request,*args,**kwargs)
+        
+        elif request.user.is_authenticated and hasattr(request.user,'customer'):#Customer User
             return HttpResponse("You are not allowed to access this resource. Permission Denied")
-        else: # Anonymous 
-            return redirect('employee-login')
+        
+        # Anonymous User 
+        return redirect('employee-login')
         
     wrapper.__doc__ = view_func.__doc__
     wrapper.__name__ = view_func.__name__

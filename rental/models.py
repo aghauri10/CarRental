@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 import uuid 
 from .validators import year_validator
 from django.core.validators import MinValueValidator,MaxValueValidator,RegexValidator
-
+#uuid is used to create random id, its an external package not related to django
 
 
 class Customer(models.Model):
@@ -23,6 +23,7 @@ class Customer(models.Model):
         return str(self.user.username) + '_'  + str(self.license_number)
 
 class Car(models.Model):
+    # choices needs to be stored in list of tuples where each tuple takes format of (value to store in db,value to display)
     brand_choices = [('Ford', 'Ford'), ('Vauxhall', 'Vauxhall'), ('Volkswagen', 'Volkswagen'), ('BMW', 'BMW'), ('Audi', 'Audi'), ('Mercedes-Benz', 'Mercedes-Benz'), ('Toyota', 'Toyota'), ('Nissan', 'Nissan'), ('Peugeot', 'Peugeot'), ('Renault', 'Renault'),('Other','Other')]
     color_choices = [('White', 'White'), ('Black', 'Black'), ('Grey', 'Grey'), ('Silver', 'Silver'), ('Blue', 'Blue'), ('Red', 'Red'), ('Brown', 'Brown'), ('Green', 'Green'), ('Orange', 'Orange'), ('Purple', 'Purple'), ('Beige', 'Beige'), ('Purple', 'Purple'), ('Gold', 'Gold'), ('Yellow', 'Yellow')]
     

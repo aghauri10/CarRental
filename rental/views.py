@@ -133,15 +133,10 @@ def loginView(request):
         
         # authenticate() will return User object if credentials are correct, else None
         user = authenticate(request,username = username, password = password)
-        
-        customer_exists = True
-        try:
-            customer = user.customer
-        except:
-            customer_exists = False
-        
+
+
         # For customer login, also need to check whether user is customer or not
-        if user and customer_exists:
+        if user and hasattr(user,'customer'):
             #login() is used for creation of user sessions
             login(request,user)
             messages.success(request,f'Successfully Logged as {user.username}')

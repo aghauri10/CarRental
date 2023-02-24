@@ -47,13 +47,8 @@ def loginView(request):
         password = data.get('password')
         user = authenticate(request,username = username, password = password)
         
-        employee_exists = True
-        try:
-            employee = user.employee
-        except:
-            employee_exists = False
         
-        if user and employee_exists:
+        if user and hasattr(user,'employee'):
             login(request,user)
             messages.success(request,f'Successfully Logged as {user.username}')
             return redirect('employee-homepage')
