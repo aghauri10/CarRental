@@ -1,23 +1,15 @@
 {% extends 'rental/base.html' %} {% load static %} {% block styles %}
-<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+<link rel="stylesheet" href="{% static 'css/profile-edit.css' %}" />
 {% endblock styles %} {% block content %} 
 {% if messages %} 
   {% for message in messages %} 
-    {% if message.level_tag == 'error' %}
-      <div class="alert alert-danger" role="alert">
-        <p>Error occurred in signing process | {{message}}</p>
+      <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-    {% endif %} 
-    
-    {% if message.level_tag == 'success' %}
-    <div class="alert alert-success" role="alert">
-      <p>{{message}}</p>
-      <hr />
-    </div>
-    {% endif %} 
   {% endfor %} 
 {% endif %}
-<form action="." method="post" enctype="multipart/form-data">
+<form  method="post" enctype="multipart/form-data">
   {% csrf_token %}
   
 

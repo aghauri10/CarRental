@@ -2,13 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid 
 from .validators import year_validator
-from django.core.validators import MinValueValidator,MaxValueValidator,RegexValidator
+from django.core.validators import MinValueValidator,MaxValueValidator
 #uuid is used to create random id, its an external package not related to django
 
 
 class Customer(models.Model):
     occupation_choices = [('Student','Student'),('Unemployed','Unemployed'),('Employed','Employed')]
-    gender_choices = [('M','Male'),('F','Female'),('X','Prefer Not to Say')]
+    gender_choices = [('Male','Male'),('Female','Female'),('Prefer Not to Say','Prefer Not to Say')]
     
 
     user = models.OneToOneField(User,on_delete=models.CASCADE) 
@@ -29,17 +29,28 @@ class Car(models.Model):
     
     car_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable=False)
     brand = models.CharField(max_length = 50,blank = False,choices = brand_choices)
-    model = models.CharField(max_length = 50)
-    year = models.PositiveSmallIntegerField(validators=[year_validator])
+    model = models.CharField(max_length = 50,blank = False)
+    year = models.PositiveSmallIntegerField(validators=[year_validator],blank = False)
     color = models.CharField(max_length = 50,blank = False,choices = color_choices)
     mileage = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(200000)])
     car_number = models.CharField(max_length = 25,unique=True)
     image = models.ImageField(upload_to = 'images/car',default='images/car/default.jpeg')
-    price = models.IntegerField(validators=[MinValueValidator(0)])
-    description = models.CharField(max_length=1000,blank = False)
+    price = models.IntegerField(validators=[MinValueValidator(0)],blank=False)
+    description = models.CharField(max_length=1000,blank = True)
+    is_available = models.BooleanField(default=True)
+    
     def __str__(self):
         return f"{str(self.brand)}-{str(self.model)}-{(str(self.year))}-{str(self.car_number)}" 
+
+class RentHistory(models.Model):
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    car = models.ForeignKey(Car,on_delete=models.SET_NULL,null=True)
+    price = models.IntegerField(validators=[MinValueValidator(0)])
+    damage_description = models.TextField(default="To be filled by system when car returned")
+    rented_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{str(self.car)} by {str(self.customer)} on {str(self.rented_at)}"
     
 class Reviews(models.Model):
     review_id = models.UUIDField(primary_key = True,default = uuid.uuid4)

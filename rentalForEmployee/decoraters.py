@@ -6,8 +6,6 @@ from django.http import HttpResponse
 def employee_required(view_func):
     def wrapper(request,*args,**kwargs):
         
-       def wrapper(request,*args,**kwargs):
-        
         if request.user.is_authenticated and hasattr(request.user,'employee'):# Employee User
             return view_func(request,*args,**kwargs)
         

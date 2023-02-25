@@ -8,13 +8,14 @@
 {% endblock %} 
 
 {% block content %}
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+{% if messages %} 
+{% for message in messages %} 
+    <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+      <p>{{message}}</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %} 
+{% endif %}
     
     <h1>Homepage For Employee</h1>
     

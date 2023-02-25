@@ -40,7 +40,10 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
             <li>
-              <a class="dropdown-item" href="{% url 'customer-profile' %}">Profile Settings</a>
+              <a class="dropdown-item" href="{% url 'customer-view-profile' %}">View My Profile</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'customer-edit-profile' %}">Profile Settings</a>
             </li>
             <li>
               <a class="dropdown-item" href="{% url 'customer-logout' %}">Logout</a>

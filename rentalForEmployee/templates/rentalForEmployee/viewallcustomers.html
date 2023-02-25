@@ -1,0 +1,25 @@
+{% extends 'rentalForEmployee/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/viewallcustomers.css' %}" />
+{% endblock styles %} {% block content %} 
+{% if messages %} 
+  {% for message in messages %} 
+      <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %} 
+{% endif %}
+
+<h1 class="display-3">All Customers</h1>
+
+{% for customer in customers %}
+<ul class="list-group list-group-horizontal flex-fill list-group-flush">
+    <li class="list-group-item ">{{ forloop.counter }}</li>
+    <li class="list-group-item">{{customer.user.first_name}} {{customer.user.last_name}}</li>
+    <li class="list-group-item">{{customer.user.username}}</li>
+    <li class="list-group-item">{{customer.phone_number}}</li>
+    <li class=""><a href="{% url 'view-customer' customer.user.id %}" class="list-group-item list-group-item-action text-info">More Details</a></li>
+</ul> 
+{% endfor %}
+
+{% endblock content %}

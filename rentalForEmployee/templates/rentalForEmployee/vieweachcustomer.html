@@ -1,0 +1,31 @@
+{% extends 'rentalForEmployee/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/vieweachcustomer.css' %}" />
+{% endblock styles %} {% block content %} 
+{% if messages %} 
+  {% for message in messages %} 
+      <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %} 
+{% endif %}
+<h1 class="display-3"Customer Info</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 text-center">
+            <img src="{{customer.profile_pic.url}}" alt="" class="img-fluid img-thumbnail" width="400" height="400" >
+        </div>
+        <div class="col-lg-6">
+            <h1>{{customer.user.first_name}} {{customer.user.last_name}}</h1>
+            <h1>{{customer.user.email}}</h1>
+            <h1>{{customer.gender}}</h1>
+            <h1>{{customer.occupation}}</h1>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}

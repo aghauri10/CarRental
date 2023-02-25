@@ -2,13 +2,14 @@
 <link rel="stylesheet" href="{% static 'css/carsforrent.css' %}" />
 {% endblock styles %} 
 {% block content %}
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+{% if messages %} 
+  {% for message in messages %} 
+      <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %} 
+{% endif %}
     
     
     <section style="background-color: #eee;">
@@ -62,12 +63,10 @@
                         </div>
                         <h6 class="text-success">Only {{car.mileage}} miles</h6>
                         <div class="d-flex flex-column mt-4">
-                            <button class="btn btn-primary btn-sm" type="button">Details</button>
-                            <button class="btn btn-outline-primary btn-sm mt-2" type="button">
-                            Rent it now
-                            </button>
+                            <a class="btn btn-primary btn-sm" href="#" role="button">Details</a>
+                            <a class="btn {% if car.is_available %} btn-outline-success {% else %} btn-outline-danger {% endif %} btn-sm mt-2" href="{% if car.is_available %} {% url 'rent-car' car.car_id %} {% else %} # {% endif %}" role="button">{% if car.is_available %} Rent it now {% else %} Not available {% endif %}</a>
                         </div>
-                        </div>
+                    </div>
                     </div>
                     </div>
                 </div>

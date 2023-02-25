@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 
 
+
 # login_required decorater(in built one) is not enough,as customer/employee is attached to user, login_required only checks for user authentication. Customer required checks both user authentication as well as checks whether customer instance is associated with user or not
 def customer_required(view_func):
     '''

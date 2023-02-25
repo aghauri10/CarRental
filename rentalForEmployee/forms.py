@@ -29,10 +29,15 @@ class UserForm(UserCreationForm):
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['gender','dob','phone_number','company_number']
+        fields = ['gender','dob','phone_number','company_number','profile_pic']
         widgets = {
             'dob': forms.widgets.DateInput(attrs={'type': 'date'})
         }
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name','last_name','email']
 
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)

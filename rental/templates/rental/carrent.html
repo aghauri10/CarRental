@@ -1,0 +1,29 @@
+{% extends 'rental/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/carrent.css' %}" />
+{% endblock styles %} 
+{% block content %}
+{% if messages %} 
+  {% for message in messages %} 
+      <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %} 
+{% endif %}
+<div class="d-flex align-items-center px-4">
+    <strong>Processing your car rent request...</strong>
+    <div class="spinner-border text-primary ms-auto" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    
+</div>
+<script>
+    var interval = setInterval(redirectURL, 5000);
+      
+    function redirectURL() {
+       document.location.href = "{% url 'cars-for-rent' %}";
+       clearInterval(interval);
+    }
+ </script>
+
+{%endblock content%}
