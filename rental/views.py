@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
-from .forms import CustomerForm,UserForm,LoginForm,UserEditForm
+from .forms import CustomerForm,UserForm,LoginForm,UserEditForm,ReviewForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Customer,Car,RentHistory
+from .models import Customer,Car,RentHistory,Reviews
 from.decorators import customer_required
 from django.http import HttpResponse
 
@@ -68,7 +68,18 @@ def profileEditView(request):
 @customer_required
 def profileView(request):
     context = {}
+    reviewform = ReviewForm(request.POST or None)
+
+    if reviewform.is_valid():
+        reviewform.save()
     
+    
+    rented_cars = RentHistory.objects.filter(customer = request.user.customer)
+    reviews = Reviews.objects.filter(customer = request.user.customer)
+    
+    # for each car : [reviewform,renthistory,previousreview]
+    context['rented_cars'] = rented_cars
+    context['reviewform'] = reviewform
     
     return render(request,'rental/profile-view.html', context)
 def registerView(request):

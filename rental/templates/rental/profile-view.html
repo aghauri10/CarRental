@@ -1,6 +1,8 @@
-{% extends 'rental/base.html' %} {% load static %} {% block styles %}
-<link rel="stylesheet" href="{% static 'css/profile-view.css' %}" />
-{% endblock styles %} {% block content %} 
+{% extends 'rental/base.html' %} {% load static %} 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/profileview.css' %}" >
+{% endblock styles %} 
+{% block content %} 
 {% if messages %} 
   {% for message in messages %} 
       <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
@@ -10,10 +12,135 @@
   {% endfor %} 
 {% endif %}
 
-<h1>Profile Information</h1>
-{{user.username}}
-{{user.customer.occupation}}
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-4 col-md-3 text-center border ml-1">
+      <img src="{{user.customer.profile_pic.url}}" alt="" class="img-fluid img-thumbnail rounded-circle">
+    </div>
+    <div class="col-lg-8 col-md-9  border mr-1">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col text-md-start text-center my-3">
+            <h2 class="diplay-4">Profile Details</h2>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <p><strong>First Name:</strong> {{user.first_name}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Last Name:</strong> {{user.last_name}}</p>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-4">
+            <p><strong>Username:</strong> {{user.username}}</p>
+          </div>
+          <div class="col-lg-8">
+            <p><strong>Email Address:</strong> {{user.email}}</p>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <p><strong>Gender:</strong> {{user.customer.gender}}</p>
+          </div>
+
+          <div class="col-lg-6">
+            <p><strong>Occupation:</strong> {{user.customer.occupation}}</p>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <p><strong>Phone Number:</strong> {{user.customer.phone_number}}</p>
+          </div>
+          <div class="col-lg-6">
+            <p><strong>License Number:</strong> {{user.customer.license_number}}</p>
+          </div>
+        </div>
+      </div>      
+    </div>
+    
+  </div>
+  <div class="row border">
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col text-center">
+          <h2 class="diplay-4">Previously Rented Cars</h2>
+        </div>
+      </div>
+      {% for rh in rented_cars %}
+      <div class="row my-1">
+        <div class="col">
+          <div class="card">
+            <div class="row">
+              <div class="col-md-3">
+                <img src="{{rh.car.image.url}}" class="w-100 h-100 rounded-start object-fit-cover" alt="...">
+              </div>
+              <div class="col-md-9">
+                <div class="card-body">
+                  <h5 class="card-title">{{rh.car.brand}} {{rh.car.model}} {{rh.car.year}}</h5>
+                  <p class="card-text"> 
+                    <span class='fw-bold'>Car Number:</span> {{rh.car.car_number}}
+                  </p>
+                  <p class="card-text"> 
+                    <span class='fw-bold'>Price at which rented:</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-pound" viewBox="0 0 16 16">
+                      <path d="M4 8.585h1.969c.115.465.186.939.186 1.43 0 1.385-.736 2.496-2.075 2.771V14H12v-1.24H6.492v-.129c.825-.525 1.135-1.446 1.135-2.694 0-.465-.07-.913-.168-1.352h3.29v-.972H7.22c-.186-.723-.372-1.455-.372-2.247 0-1.274 1.047-2.066 2.58-2.066a5.32 5.32 0 0 1 2.103.465V2.456A5.629 5.629 0 0 0 9.348 2C6.865 2 5.322 3.291 5.322 5.366c0 .775.195 1.515.399 2.247H4v.972z"/>
+                    </svg>{{rh.price}}
+                  </p>
+                  <p class="card-text">
+                    <span class='fw-bold'>Damage description:</span> {{rh.damage_description}}
+                  </p>
+
+                  <p class="card-text"> 
+                    <span class='fw-bold'>Rent Start Date:</span> {{rh.rented_at}}
+                  </p>
+                  <p class="card-text"> 
+                    <span class='fw-bold'>Rent End Date:</span> {% if rh.returned_at %}{{rh.returned_at}} {% else %} Not returned yet {% endif %}
+                  </p>
+                  <p class="card-text"> 
+                    <span class='fw-bold'>Rent Duration:</span> {% if rh.returned_at %}{{rh.rented_at|timesince:rh.returned_at}} {% else %}{{rh.rented_at|timesince}} {% endif %}
+                  </p>
+
+                  <form method="post" action=".">
+                    {% csrf_token %}
+                    <input type="text" name="{{reviewform.car.html_name}}" value="{{rh.car.car_id}}" hidden>
+                    <div class="form-floating">
+                      <select class="form-select" id="floatingSelect"  name="{{reviewform.rating.html_name}}" aria-label="Floating label select example">
+                        <option selected>------</option>
+                        <option name="{{reviewform.rating.html_name}}" value="1">One</option>
+                        <option name="{{reviewform.rating.html_name}}" value="2">Two</option>
+                        <option name="{{reviewform.rating.html_name}}" value="3">Three</option>
+                        <option name="{{reviewform.rating.html_name}}" value="4">Four</option>
+                        <option name="{{reviewform.rating.html_name}}" value="5">Five</option>
+                      </select>
+                      <label for="floatingSelect">Rate it out of 5</label>
+                    </div>
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="Leave a review here" id="floatingTextarea2" style="height: 100px" name="{{reviewform.description.html_name}}"></textarea>
+                      <label for="floatingTextarea2">My Review</label>
+                    </div>
+                    <button type="submit" class="btn btn-outline-secondary my-1">Submit my review</button>
+                  </form>
+
+                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+<script>
+  const ratings = document.getElementById('rating1'); const rating1 = new CDB.Rating(ratings);
+  rating1.getRating;
+</script>
 
 
 

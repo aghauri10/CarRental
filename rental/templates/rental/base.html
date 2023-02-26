@@ -6,32 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    
     <title>Car Rental</title>
+    
     {% block styles %}{% endblock styles %}
+    <style>
+      .navbar-nav > .nav-item:hover {
+        /* From https://css.glass */
+        background: rgba(255, 255, 255, 0.2);
+        
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3); 
+        
+      }
+      .nav-item > .nav-link {
+        color: black;
+        font-weight: 350;
+      }
+      .nav-item > .nav-link:hover {
+        font-weight: 450;
+      }
+    </style>
   </head>
   <body>
-    <div class="navbar navbar-expand-lg navbar-light bg-light sticky-top bg-body-tertiary">
-      <a class="navbar-brand" href="{% url 'customer-homepage' %}">
-        <img src="{% static 'images/logos/logo.png' %}" alt="Drive Mate" height="20">
+    <nav class="navbar navbar-expand-lg fixed-top mx-2 navbar-dark" style="background-color: #ECF2FF;">
+      <a class="navbar-brand py-0" href="{% url 'customer-homepage' %}">
+        <img src="{% static 'images/logos/logo.png' %}" alt="Drive Mate" height="20" class="img-fluid" width="200">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <ul class="nav collapse navbar-collapse justify-content-end">
-        <li class="nav-item">
-          <a class="nav-item nav-link" href="{% url 'customer-homepage' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-item nav-link" href="{% url 'cars-for-rent' %}">Rent Cars</a>
-        </li>
+      <ul class="navbar-nav collapse navbar-collapse justify-content-end">
+        
         {% if not user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-item nav-link" href="{% url 'customer-login' %}"> Login </a>
+          <a class="nav-link" href="{% url 'customer-login' %}"> Login </a>
         </li>
         <li class="nav-item">
-          <a class="nav-item nav-link" href="{% url 'customer-register' %}">Signup</a>
+          <a class="nav-link" href="{% url 'customer-register' %}">Signup</a>
         </li>
         {% else %}
         <div class="btn-group">
@@ -48,12 +62,24 @@
             <li>
               <a class="dropdown-item" href="{% url 'customer-logout' %}">Logout</a>
             </li>
+            {% endif %}
           </ul>
-        </div>
+        </nav>
+        <nav class="navbar navbar-expand sticky-top shadow-sm fixed-top pt-5" style="background-color: #ECF2FF;">
+          <div class="container-fluid justify-content-evenly">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'customer-homepage' %}">HOME</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'cars-for-rent' %}">RENT CARS</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
         
         
         
-        {% endif %}
       </ul>
       
     </div>
@@ -62,6 +88,7 @@
     <br />
     {% block content %}{% endblock content %}
   
-    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
   </body>
 </html>

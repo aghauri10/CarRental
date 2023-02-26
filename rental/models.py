@@ -48,17 +48,18 @@ class RentHistory(models.Model):
     price = models.IntegerField(validators=[MinValueValidator(0)])
     damage_description = models.TextField(default="To be filled by system when car returned")
     rented_at = models.DateTimeField(auto_now_add=True)
+    returned_at = models.DateTimeField(blank = True,null = True)
     
     def __str__(self):
         return f"{str(self.car)} by {str(self.customer)} on {str(self.rented_at)}"
     
 class Reviews(models.Model):
     review_id = models.UUIDField(primary_key = True,default = uuid.uuid4)
-    car_id = models.ForeignKey(Car,on_delete=models.CASCADE)
-    user_id = models.ForeignKey(Customer,on_delete=models.CASCADE)
-    rating = models.IntegerField(choices = [(0.0, '0.0'), (0.5, '0.5'), (1.0, '1.0'), (1.5, '1.5'), (2.0, '2.0'), (2.5, '2.5'), (3.0, '3.0'), (3.5, '3.5'), (4.0, '4.0'), (4.5, '4.5'), (5.0, '5.0')],default = 0)
+    car = models.ForeignKey(Car,on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    rating = models.IntegerField(choices = [(0.0, '0.0'), (1.0, '1.0'), (2.0, '2.0'), (3.0, '3.0'), (4.0, '4.0'), (5.0, '5.0')],blank = False)
     description = models.CharField(max_length=250)
     reviewed_at = models.DateTimeField(auto_now = True)
     
     class Meta:
-        unique_together = ('car_id','user_id')
+        unique_together = ('customer','car')
