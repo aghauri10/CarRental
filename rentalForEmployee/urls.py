@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import homepageView,loginView,logoutView,registerView,addCarView,profileEditView,profileView,viewAllCustomerView,viewEachCustomerView
+from .views import homepageView,loginView,logoutView,registerView,addCarView,profileEditView,profileView,viewAllCustomerView,viewEachCustomerView,viewAllCarsView,viewEachCarView
 
 urlpatterns = [
     path('',homepageView,name = 'employee-homepage'),
@@ -15,6 +15,8 @@ urlpatterns = [
     
     
     # Utils
+    path('car/',viewAllCarsView,name = 'view-all-cars'),
+    path('car/<uuid:id>/',viewEachCarView,name = 'view-car'),
     path('car/add/',addCarView,name = 'add-car'),
     path('customers/',viewAllCustomerView,name='view-customer-all'), # View all customers
     path('customers/<int:id>/',viewEachCustomerView,name='view-customer'),# View Each Customer 

@@ -1,23 +1,33 @@
-{% extends 'rentalForEmployee/base.html' %}
-{% load static %} 
-
-{% block styles %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+{% extends 'rentalForEmployee/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
 {% endblock styles %} 
-
-{% block content %}
+{% block content %} 
 {% if messages %} 
-{% for message in messages %} 
-    <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
-      <p>{{message}}</p>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-{% endfor %} 
+  {% for message in messages %} 
+      <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %} 
 {% endif %}
-  <h1>Login</h1>
-  <form method="POST" action=".">
-    {% csrf_token %} {{form.as_p}}
-    <input type="submit" name="Login" />
-  </form>
-  <a href="{% url 'employee-register'%}">Create a new account</a>
+<form method="POST" action=".">
+  {% csrf_token %}
+  <!-- Email input -->
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">@</span>
+    <input type="text" class="form-control" placeholder="Username" aria-label="{{form.username.label}}" aria-describedby="basic-addon1" name="{{form.username.html_name}}">
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">{{form.password.label}}</span>
+    <input type="password" class="form-control" aria-label="{{form.password.label}}" aria-describedby="inputGroup-sizing-default" name="{{form.password.html_name}}">
+  </div>
+   
+  <!-- Register buttons -->
+  <div class="text-center">
+     <!-- Submit button -->
+    <button type="submit" class="btn btn-primary">Sign in</button><br>
+
+    <p>Not a member? <a href="{% url 'employee-register'%}">Register</a></p>
+  </div>
+</form>
 {% endblock content %}

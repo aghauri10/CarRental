@@ -10,16 +10,20 @@
   {% endfor %} 
 {% endif %}
 
-<h1 class="display-3">All Customers</h1>
+<div class="container text-center">
+  <h1 class="display-3">All Customers</h1>
+  <ol class="list-group list-group-numbered">
+    {% for customer in customers %}
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{customer.user.email}}</div>
+      </div>
+      <span class="badge bg-primary rounded-pill"><a href="{% url 'view-customer' customer.user.id %}" class="text-light">More Details</a></span>
+    </li>
+    {% endfor %}
+  </ol>
+  
+</div>
 
-{% for customer in customers %}
-<ul class="list-group list-group-horizontal flex-fill list-group-flush">
-    <li class="list-group-item ">{{ forloop.counter }}</li>
-    <li class="list-group-item">{{customer.user.first_name}} {{customer.user.last_name}}</li>
-    <li class="list-group-item">{{customer.user.username}}</li>
-    <li class="list-group-item">{{customer.phone_number}}</li>
-    <li class=""><a href="{% url 'view-customer' customer.user.id %}" class="list-group-item list-group-item-action text-info">More Details</a></li>
-</ul> 
-{% endfor %}
 
 {% endblock content %}

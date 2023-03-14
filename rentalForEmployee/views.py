@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Employee
-from rental.models import Customer
+from rental.models import Customer,RentHistory,Car
 from .decoraters import employee_required
 from django.contrib.auth.models import User
 
@@ -35,6 +35,25 @@ def addCarView(request):
     context['form'] = form
     return render(request,'rentalForEmployee/addnewcar.html',context)
 
+@employee_required
+def viewAllCarsView(request):
+    context = {}
+    cars = Car.objects.all()
+    context['cars'] = cars
+    return render(request,'rentalForEmployee/viewallcars.html', context)
+
+@employee_required
+def viewEachCarView(request,id):
+    context = {}
+    try:
+        car = Car.objects.get(car_id = id)
+    except:
+        messages.error(request,"Car doesn't Exists")
+        return redirect('view-all-cars')
+    
+    
+    context['car'] = car
+    return render(request,'rentalForEmployee/vieweachcar.html', context)
 
 def loginView(request):
     context = {}
@@ -153,5 +172,8 @@ def viewEachCustomerView(request,id):
         messages.error(request,"Customer doesn't Exists")
         return redirect('view-customer-all')
     
-    context['customer'] = user.customer
+    rented_cars = RentHistory.objects.filter(customer = user.customer)
+    
+    context['rented_cars'] = rented_cars
+    context['user'] = user
     return render(request,'rentalForEmployee/vieweachcustomer.html', context)

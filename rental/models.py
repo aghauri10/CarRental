@@ -18,6 +18,7 @@ class Customer(models.Model):
     occupation = models.CharField(blank = True,choices = occupation_choices,max_length = 50,default = 'Unemployed')
     phone_number = models.CharField(blank = False,max_length = 15)
     license_number = models.CharField(max_length = 50)
+    last_modified = models.DateTimeField(blank = True,auto_now=True)
     
     def __str__(self):
         return str(self.user.username) + '_'  + str(self.license_number)
@@ -38,6 +39,7 @@ class Car(models.Model):
     price = models.IntegerField(validators=[MinValueValidator(0)],blank=False)
     description = models.CharField(max_length=1000,blank = True)
     is_available = models.BooleanField(default=True)
+    last_modified = models.DateTimeField(blank = True,auto_now=True)
     
     def __str__(self):
         return f"{str(self.brand)}-{str(self.model)}-{(str(self.year))}-{str(self.car_number)}" 

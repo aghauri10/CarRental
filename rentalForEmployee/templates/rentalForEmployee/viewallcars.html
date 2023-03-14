@@ -1,0 +1,42 @@
+{% extends 'rentalForEmployee/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/viewallcars.css' %}" />
+{% endblock styles %} {% block content %} 
+{% if messages %} 
+  {% for message in messages %} 
+      <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %} 
+{% endif %}
+
+<div class="container text-center">
+  <h1 class="display-3">All Cars</h1>
+    <div class="list-group">
+      {% for car in cars %}
+      <a href="{% url 'view-car' car.car_id %}" class="list-group-item list-group-item-action list-group-item-light" aria-current="true">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-sm-2">
+              <img src="{{car.image.url}}" class="rounded-start img-fluid" alt="...">
+            </div>
+            <div class="col-12 col-sm-10">
+              <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{car.brand}} {{car.model|upper}} {{car.year}}</h5>
+              <small>Last updated {{car.last_modified|timesince}} ago</small>
+            </div>
+            <p class="mb-1 d-flex align-self-start"> {{car.car_number|upper}}</p>
+            <small class="d-flex align-self-start">Current Price: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-pound">
+              <path d="M4 8.585h1.969c.115.465.186.939.186 1.43 0 1.385-.736 2.496-2.075 2.771V14H12v-1.24H6.492v-.129c.825-.525 1.135-1.446 1.135-2.694 0-.465-.07-.913-.168-1.352h3.29v-.972H7.22c-.186-.723-.372-1.455-.372-2.247 0-1.274 1.047-2.066 2.58-2.066a5.32 5.32 0 0 1 2.103.465V2.456A5.629 5.629 0 0 0 9.348 2C6.865 2 5.322 3.291 5.322 5.366c0 .775.195 1.515.399 2.247H4v.972z"/>
+            </svg>{{car.price}}</small></div>
+          </div>
+        </div>
+        
+      </a>
+      {% endfor %}
+    </div>
+  
+</div>
+
+
+{% endblock content %}

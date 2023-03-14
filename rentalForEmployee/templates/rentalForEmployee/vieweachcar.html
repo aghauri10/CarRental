@@ -1,0 +1,57 @@
+{% extends 'rentalForEmployee/base.html' %} 
+{% load static %} 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/vieweachcar.css' %}" />
+{% endblock styles %} 
+
+
+{% block content %} 
+{% if messages %} 
+  {% for message in messages %} 
+      <div class="alert {% if message.level_tag == 'error' %} alert-danger {% elif message.level_tag == 'success'%} alert-success {% else %} alert-info {% endif %} alert-dismissible fade show" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endfor %} 
+{% endif %}
+
+
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4 col-md-3 d-flex border ml-1 justify-content-center align-items-center">
+        <div class="w-75 h-75">
+            <img src="{{car.image.url}}" alt="" class="object-fit-fill">
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-9  border mr-1">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col text-md-start text-center my-3">
+              <h2 class="diplay-4">Car Details</h2>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            ---
+          </div>
+        </div>      
+      </div>
+      
+    </div>
+    <div class="row border">
+  
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col text-center">
+            <h2 class="diplay-4">Customers</h2>
+          </div>
+        </div>
+        {% if customers %}
+        {% else %}
+        None
+        {% endif %}
+      </div>
+    </div>
+  
+  </div>
+
+{% endblock %}

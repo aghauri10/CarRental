@@ -21,9 +21,20 @@
       <ul class="nav collapse navbar-collapse justify-content-end">
         <li class="nav-item">
           <a class="nav-item nav-link" href="{% url 'employee-homepage' %}">Home</a>
-        </li><li class="nav-item">
-          <a class="nav-item nav-link" href="{% url 'add-car' %}">Add Car</a>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Cars
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'add-car' %}">Add new car</a></li>
+            <li><a class="dropdown-item" href="{% url 'view-all-cars' %}">All Cars</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" href="{% url 'view-customer-all' %}">Customers</a>
+        </li>
+        
         {% if not user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-item nav-link" href="{% url 'employee-login' %}"> Login </a>
