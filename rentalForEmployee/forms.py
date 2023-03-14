@@ -47,4 +47,5 @@ class LoginForm(forms.Form):
 class CarForm(forms.ModelForm):
     class Meta:
         model = Car
-        fields = "__all__"
+        exclude = ['is_available', ]
+        
